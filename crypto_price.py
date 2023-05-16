@@ -1,12 +1,6 @@
 import requests
 
-def get_chain_data():
-    response = requests.get("https://api.llama.fi/v2/chains")
-    saved_response = response.json()
-
-    for chain in saved_response:
-        print(chain['name'], chain['tokenSymbol'])
-
+# function uses a token that is provided by user input and returns a token symbol that is being used in second function
 def get_token_price(token):
 
     # catch the exception when someone enters the token name that doesn't exist
@@ -23,6 +17,7 @@ def get_token_price(token):
     except KeyError as detail:
         print('Cryptocurrency / token not found: ', detail)
 
+# token symbol from previous function is being used as parameter 
 def get_live_price(symbol):
 
     response = requests.get(f"https://api.bybit.com/spot/v3/public/quote/ticker/price?symbol={symbol}USDT").json()
@@ -37,9 +32,7 @@ def get_user_input():
     return input("\nEnter name of the crypto token: ").lower()
 
 
-
 def main():
-    #get_token_price(get_user_input())
     get_live_price(get_token_price(get_user_input()))
 
 if __name__ == "__main__":
